@@ -1,6 +1,6 @@
 class Solution {
 public:
-    unordered_map<string,bool>mp;
+    set<string>st;
     
     bool hasAllCodes(string s, int k) {
         if(s.size()<k)
@@ -9,10 +9,10 @@ public:
         for(int i=0;i<=s.length()-k;i++)
         {
             string str=s.substr(i,k);
-            mp[str]=true;
+            st.insert(str);
         }
         
-        return (mp.size()==cnt);
+        return (st.size()==cnt);
     }
     
 };
