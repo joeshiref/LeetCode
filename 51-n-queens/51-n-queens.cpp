@@ -1,33 +1,38 @@
 class Solution {
 public:
-    vector<vector<string>>ans;
+    // Container that holds the answer
+    vector< vector<string> >ans;
+    // Boolean arrays to mark columns, and diagonals
     bool visCols[9],mainDiag[20],secDiag[20];
-    vector<string>tmp;
-    void doWork(int r,int n)
+    // This vector holds 1 answer
+    
+    void doWork(int row,int n,vector<string>&board)
     {
-        if(r==n)
+        if(row==n)
         {
-            ans.push_back(tmp);
+            ans.push_back(board);
             return;
         }
-        for(int c=0;c<n;c++)
+        for(int col=0;col<n;col++)
         {
-            if(!visCols[c] && !mainDiag[n+r-c] && !secDiag[r+c])
+            if(!visCols[col] && !mainDiag[n+row-col] && !secDiag[row+col])
             {
-                string str(n,'.');
-                str[c]='Q';
-                tmp.push_back(str);
-                visCols[c] = mainDiag[n+r-c] = secDiag[r+c] = true;
-                doWork(r+1,n);
-                visCols[c] = mainDiag[n+r-c] = secDiag[r+c] = false;
-                tmp.pop_back();
+                //string str(n,'.');
+                //str[col]='Q';
+                //tmp.push_back(str);
+                board[row][col]='Q';
+                visCols[col] = mainDiag[n+row-col] = secDiag[row+col] = true;
+                doWork(row+1,n,board);
+                visCols[col] = mainDiag[n+row-col] = secDiag[row+col] = false;
+                board[row][col]='.';
             }
         }
     }
     
     
     vector<vector<string>> solveNQueens(int n) {
-        doWork(0,n);
+        vector<string>board(n,string(n,'.'));
+        doWork(0,n,board);
         return ans;
     }
 };
