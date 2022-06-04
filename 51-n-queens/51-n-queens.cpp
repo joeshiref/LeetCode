@@ -7,13 +7,6 @@ public:
     {
         if(r==n)
         {
-            for(int i=0;i<tmp.size();i++)
-            {
-                for(int j=0;j<n;j++)
-                    cout << tmp[i][j];
-                cout << endl;
-            }
-            cout << endl;
             ans.push_back(tmp);
             return;
         }
