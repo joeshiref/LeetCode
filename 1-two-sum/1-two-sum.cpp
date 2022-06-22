@@ -13,9 +13,9 @@ public:
                     return {i,mp[rem][0]};
                 else
                 {
-                    int idxOfCur=lower_bound(mp[rem].begin(),mp[rem].end(),i)-mp[rem].begin();
+                    //int idxOfCur=lower_bound(mp[rem].begin(),mp[rem].end(),i)-mp[rem].begin();
                     if(mp[rem].size()>1)
-                        return {i,mp[rem][idxOfCur+1]};
+                        return {i,mp[rem][1]};
                 }
             }
             
