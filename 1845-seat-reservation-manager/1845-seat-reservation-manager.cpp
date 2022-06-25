@@ -1,30 +1,21 @@
 class SeatManager {
 public:
-    priority_queue<int>pq;
-    vector<int>reserved;
-    SeatManager(int n) {
-        for(int i=1;i<=n;i++)
-            pq.push(-i);
-        vector<int> temp(n+1,0);
-        reserved = temp;
-    }
+    set<int> st = {};
+    int cur = 1;
+    
+    SeatManager(int n) {}
     
     int reserve() {
-        int top=-pq.top();
-        pq.pop();
-        reserved[top]=1;
-        return top;
+        if (st.size()) {
+            int res = *begin(st);
+            st.erase(begin(st));
+            return res;
+        } else {
+            return cur++;
+        }
     }
     
     void unreserve(int seatNumber) {
-        reserved[seatNumber]=0;
-        pq.push(-seatNumber);
+        st.insert(seatNumber);
     }
 };
-
-/**
- * Your SeatManager object will be instantiated and called as such:
- * SeatManager* obj = new SeatManager(n);
- * int param_1 = obj->reserve();
- * obj->unreserve(seatNumber);
- */
