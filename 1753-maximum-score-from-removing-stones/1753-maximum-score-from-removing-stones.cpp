@@ -6,23 +6,18 @@ public:
         pq.push(b);
         pq.push(c);
         int cnt=0;
-        while(!pq.empty())
+        while(pq.size()>1)
         {
             int first=pq.top();
             pq.pop();
             int second=pq.top();
             pq.pop();
-            int third=pq.top();
-            pq.pop();
-            if(second == 0 && third ==0)
-                break;
+            if(--first>0)
+                pq.push(first);
+            if(--second>0)
+                pq.push(second);
             cnt++;
-            first--;
-            second--;
             
-            pq.push(first);
-            pq.push(second);
-            pq.push(third);
         }
         return cnt;
     }
