@@ -19,33 +19,23 @@ public:
         return DP[idx][prev]=max(ch1,ch2);
     }
     int wiggleMaxLength(vector<int>& nums) {
-        memset(DP,-1,sizeof(DP));
         vector<int>v;
         for(int i=1;i<nums.size();i++)
-            v.push_back(nums[i]-nums[i-1]);
-        
+            v.push_back(nums[i]-nums[i-1]);    
         int cnt=0,prev=2;
-        for(auto num:v)
-            cout << num << " ";
-        cout << endl;
          for(auto num:v)
          {
              if(num>0 && (prev==0||prev==2))
              {
-                              cout << num << " ";
-
                  cnt++;
                  prev=1;
              }
              else if(num<0 && (prev==1||prev==2))
              {
-                              cout << num << " ";
-
                  cnt++;
                  prev=0;
              }
          }
-        cout << endl;
         return cnt+1;
         
     }
