@@ -1,28 +1,29 @@
 class Solution {
 public:
-    vector<vector<int>> res;
-    vector<int>vec;
-    void BT(int idx, vector<int>& candidates, int target)
+    
+    vector<vector<int>>ret;
+    vector<int>ans;
+    
+    void BT(int idx, int currentSum, int target, vector<int>&nums)
     {
-        if(target==0)
+        if(idx==nums.size() || currentSum>target)
+            return;
+        if(currentSum==target)
         {
-            res.push_back(vec);
+            ret.push_back(ans);
             return;
         }
-        if(idx==candidates.size() || target < 0)
-            return;
-        if(target>=candidates[idx])
+        if(currentSum+nums[idx]<=target)
         {
-            vec.push_back(candidates[idx]);
-            BT(idx,candidates,target-candidates[idx]);
-            vec.pop_back();
+            ans.push_back(nums[idx]);
+            BT(idx,currentSum+nums[idx],target,nums);
+            ans.pop_back();
         }
-        BT(idx+1,candidates,target);
-        
+        BT(idx+1,currentSum,target,nums);
     }
+    
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        
-        BT(0,candidates,target);
-        return res;
+        BT(0,0,target,candidates);
+        return ret;
     }
 };
