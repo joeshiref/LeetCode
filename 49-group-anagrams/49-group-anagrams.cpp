@@ -1,6 +1,6 @@
 class Solution {
 public:
-    string sortString(string str)
+    string sortString(string & str)
     {
         int freq[26]={};
         for(auto c:str)
