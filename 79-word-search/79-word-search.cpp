@@ -1,50 +1,23 @@
 class Solution {
 public:
-    
-bool vis[10][10];
-int dirx[4] = { 0,0,1,-1 };
-int diry[4] = { 1,-1,0,0 };
-int n, m;
-bool valid(int i, int j, int idx, string word, vector<vector<char>>& board)
-{
-	return (i >= 0 && i<n && j >= 0 && j<m && !vis[i][j] && board[i][j] == word[idx]);
-}
-bool dfs(int i, int j, int pos, vector<vector<char>>& board, string word)
-{
-	vis[i][j] = true;
-	if (pos > word.size())
-		return false;
-	if (pos==word.size())
-		return true;
-	bool flag = false;
-	for (int f = 0; f<4; f++)
-	{
-		int newx = i + dirx[f];
-		int newy = j + diry[f];
-		if (valid(newx, newy, pos, word, board))
-		{
-			flag |= dfs(newx, newy, pos + 1, board, word);
-		}
-	}
-	vis[i][j] = false;
-	return flag;
+    bool exist(vector<vector<char>>& board, string word) {
+    for (unsigned int i = 0; i < board.size(); i++) 
+        for (unsigned int j = 0; j < board[0].size(); j++) 
+            if (dfs(board, i, j, word))
+                return true;
+    return false;
 }
 
-bool exist(vector<vector<char>>& board, string word) {
-	n = board.size();
-	m = board[0].size();
-	int cnt = 0;
-	for (int i = 0; i<n; i++)
-	{
-		for (int j = 0; j<m; j++)
-		{
-			if (board[i][j] == word[0])
-			{
-				memset(vis, false, sizeof(vis));
-				cnt += dfs(i, j, 1, board, word);
-			}
-		}
-	}
-	return cnt>0;
+bool dfs(vector<vector<char>>& board, int i, int j, string& word) {
+    if (!word.size())
+        return true;
+    if (i<0 || i>=board.size() || j<0 || j>=board[0].size() || board[i][j] != word[0])  
+        return false;
+    char c = board[i][j];
+    board[i][j] = '*';
+    string s = word.substr(1);
+    bool ret = dfs(board, i-1, j, s) || dfs(board, i+1, j, s) || dfs(board, i, j-1, s) || dfs(board, i, j+1, s);
+    board[i][j] = c;
+    return ret;
 }
 };
