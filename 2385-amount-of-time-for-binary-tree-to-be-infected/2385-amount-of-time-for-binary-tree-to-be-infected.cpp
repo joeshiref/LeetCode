@@ -51,7 +51,6 @@ public:
                 for(int i=0;i<vec.size();i++)
                 {
                     int child=vec[i];
-                    cout << child << " ";
                     if(!vis[child])
                     {
                         vis[child]=true;
