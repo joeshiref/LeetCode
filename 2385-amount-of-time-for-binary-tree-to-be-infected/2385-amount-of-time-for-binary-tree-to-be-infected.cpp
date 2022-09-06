@@ -12,33 +12,30 @@
 class Solution {
 public:
     
-    unordered_map<TreeNode*,vector<TreeNode*>>adj;
-    TreeNode* startNode;
-    void buildGraph(TreeNode* root,int start)
+    vector<int> adj[100001];
+    void buildGraph(TreeNode* root)
     {
         if(root==NULL)
             return;
-        if(root->val==start)
-            startNode=root;
         TreeNode* left = root->left;
         TreeNode* right = root->right;
         if(left!=NULL)
         {
-            adj[root].push_back(left);
-            adj[left].push_back(root);
+            adj[root->val].push_back(left->val);
+            adj[left->val].push_back(root->val);
         }
         if(right!=NULL)
         {
-            adj[root].push_back(right);
-            adj[right].push_back(root);
+            adj[root->val].push_back(right->val);
+            adj[right->val].push_back(root->val);
         }
-        buildGraph(left,start);
-        buildGraph(right,start);
+        buildGraph(left);
+        buildGraph(right);
     }
-    int BFS(TreeNode*source)
+    int BFS(int source)
     {
-        queue<TreeNode*>q;
-        map<TreeNode*,bool>vis;
+        queue<int>q;
+        bool vis[100001]={};
         q.push(source);
         int sz,dep=-1;
         while(!q.empty())
@@ -47,14 +44,14 @@ public:
             dep++;
             while(sz--)
             {
-                TreeNode*cur = q.front();
-                cout << cur->val << " ";
+                int cur = q.front();
                 q.pop();
                 vis[cur]=true;
-                vector<TreeNode*> vec = adj[cur];
+                vector<int> vec = adj[cur];
                 for(int i=0;i<vec.size();i++)
                 {
-                    TreeNode*child=vec[i];
+                    int child=vec[i];
+                    cout << child << " ";
                     if(!vis[child])
                     {
                         vis[child]=true;
@@ -62,12 +59,11 @@ public:
                     }
                 }
             }
-            cout << endl;
         }
         return dep;
     }
     int amountOfTime(TreeNode* root, int start) {
-        buildGraph(root,start);
-        return BFS(startNode);
+        buildGraph(root);
+        return BFS(start);
     }
 };
