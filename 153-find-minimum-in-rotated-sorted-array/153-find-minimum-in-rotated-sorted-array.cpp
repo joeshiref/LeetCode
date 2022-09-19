@@ -5,6 +5,8 @@ public:
         while(s<=e)
         {
             int mid = (s+e)/2;
+            if(mid+1<nums.size() && mid-1>=0 && nums[mid]>nums[mid+1] && nums[mid-1]>nums[mid])
+                break;
             if(nums[mid]>=nums[0])
                 s=mid+1;
             else
