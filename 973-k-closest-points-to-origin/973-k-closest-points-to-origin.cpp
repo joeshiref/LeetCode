@@ -1,22 +1,19 @@
 class Solution {
 public:
-    int calcDistance(vector<int>&a)
-    {
-        return (a[0]*a[0] + a[1]*a[1]);
-    }
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
-        priority_queue< pair<int,vector<int> > >pq;
-        for(auto v:points)
+        vector<vector<int>> ans;
+        priority_queue< pair<int,vector<int> > > pq;
+        for(auto point:points)
         {
-            int dis=calcDistance(v);
-            pq.push({-dis,v});
+            int dis = point[0]*point[0] + point[1]*point[1];
+            pq.push({-dis,point});
         }
-        vector<vector<int>>v;
         while(k--)
         {
-            v.push_back(pq.top().second);
+            ans.push_back({pq.top().second[0],pq.top().second[1]});
+            //cout << pq.top().second[0] << " " << pq.top().second[1] << endl;
             pq.pop();
         }
-        return v;
+        return ans;
     }
 };
