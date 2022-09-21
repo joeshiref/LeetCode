@@ -1,32 +1,34 @@
 class Solution {
 public:
-    long long max(long long a, long long b)
+    long long max(long long x,long long y)
     {
-        return a>b?a:b;
+        if(x<y)
+            return y;
+        return x;
     }
-    long long maxArea(int h, int w, vector<int>& horizontalCuts, vector<int>& verticalCuts) {
-        horizontalCuts.push_back(h);
+    int maxArea(int h, int w, vector<int>& horizontalCuts, vector<int>& verticalCuts) {
         sort(horizontalCuts.begin(),horizontalCuts.end());
-        verticalCuts.push_back(w);
-        sort(verticalCuts.begin(),verticalCuts.end());
-        int horizontalPosition=0;
-        long long maximumHeight=0;
+        horizontalCuts.push_back(h);
+        long long maxHoriDiff=0;
+        int startHori = 0;
         for(int i=0;i<horizontalCuts.size();i++)
         {
-            maximumHeight=max(maximumHeight,horizontalCuts[i]-horizontalPosition);
-            horizontalPosition=horizontalCuts[i];
+            maxHoriDiff=max(maxHoriDiff,horizontalCuts[i]-startHori);
+            startHori=horizontalCuts[i];
         }
-        //cout << "Max Height: " << maximumHeight << endl;
-        maximumHeight=maximumHeight%1000000007;
-        int vertialPosition=0;
-        long long maximumWidth=0;
+        
+        sort(verticalCuts.begin(),verticalCuts.end());
+        verticalCuts.push_back(w);
+        long long maxVerDiff=0;
+        int startVer = 0;
         for(int i=0;i<verticalCuts.size();i++)
         {
-            maximumWidth=max(maximumWidth,verticalCuts[i]-vertialPosition);
-            vertialPosition=verticalCuts[i];
+            maxVerDiff=max(maxVerDiff,verticalCuts[i]-startVer);
+            startVer=verticalCuts[i];
         }
-        //cout << "Max Width: " << maximumWidth << endl;
-        maximumWidth=maximumWidth%1000000007;
-        return (maximumWidth*maximumHeight)%1000000007;
+        
+        int mod = 1000000007;
+        
+        return ((maxHoriDiff%mod)*(maxVerDiff%mod))%mod;
     }
 };
