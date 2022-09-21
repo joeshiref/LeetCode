@@ -1,70 +1,66 @@
-struct trie{
-    bool isLeaf;
-    trie * child[26];
-    trie()
-    {
-        memset(child,0,sizeof(child));
-        isLeaf = 0;
-    }
-    void insert(char *str)
-    {
-        if(*str=='\0')
-            isLeaf = 1;
-        else
-        {
-            int cur = *str - 'a';
-            if(child[cur]==0)
-                child[cur]=new trie();
-            child[cur] -> insert(str+1);
-        }
-    }
-    bool prefix(char *str)
-    {
-        if(*str=='\0')
-            return true;
-        else
-        {
-            int cur = *str - 'a';
-            if(child[cur]==0)
-                return false;
-            return child[cur] -> prefix(str+1);
-        }
-    }
+
+struct trie
+{
+	bool isLeaf;
+	trie * child[26];
+	vector<string>vec;
+	trie()
+	{
+		memset(child, 0, sizeof(child));
+		isLeaf = 0;
+	}
+	void insert(int idx, string str)
+	{
+		if (idx == str.size())
+			isLeaf = 1;
+		else
+		{
+			int cur = str[idx] - 'a';
+			if (child[cur] == 0)
+				child[cur] = new trie();
+			child[cur]->vec.push_back(str);
+			child[cur]->insert(idx + 1, str);
+		}
+	}
+	vector<string> prefix(int idx, string str)
+	{
+		if (idx == str.size())
+			return vec;
+		else
+		{
+			int cur = str[idx] - 'a';
+			if (child[cur] == 0)
+				return{};
+			return child[cur]->prefix(idx + 1, str);
+		}
+	}
 };
 
 
 class Solution {
 public:
-    bool prefix(string s1, string s2)
+    int min(int x,int y)
     {
-        if(s1.size()>s2.size())
-            return false;
-        for(int i=0;i<s1.size();i++)
-        {
-            if(s1[i]!=s2[i])
-                return false;
-        }
-        return true;
+        if(x<y)
+            return x;
+        return y;
     }
     vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord) {
         sort(products.begin(),products.end());
-        for(auto pro:products)
-            cout << pro << " ";
-        cout << endl;
+        
+        trie root;
         vector<vector<string>> ans;
+        for(auto product:products)
+            root.insert(0,product);
+        
         string str="";
-        int start,bsStart=0;
         for(int i=0;i<searchWord.size();i++)
         {
             str+=searchWord[i];
-            start = lower_bound(products.begin()+bsStart,products.end(),str) - products.begin();
-            
-            vector<string>tmp;
-            for(int j=start;j<products.size() && tmp.size()<3 && !products[j].compare(0,str.length(),str) ;j++)
-                tmp.push_back(products[j]);
-            
-            ans.push_back(tmp);
-            bsStart=start;
+            ans.push_back({});
+            vector<string> tmp = root.prefix(0,str);
+            for(int j=0;j<min(3,tmp.size());j++)
+                ans[i].push_back(tmp[j]);
         }
         
         return ans;
