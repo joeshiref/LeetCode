@@ -6,7 +6,8 @@ public:
         for(int i=0;i<nums.size();i++)
         {
             sum+=nums[i];
-            maximumSofar=max(maximumSofar,sum);
+            if(sum>maximumSofar)
+                maximumSofar=sum;
             if(sum<0)
                 sum=0;
         }
