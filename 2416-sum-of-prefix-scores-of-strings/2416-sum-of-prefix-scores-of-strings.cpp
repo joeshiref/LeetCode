@@ -35,8 +35,19 @@ public:
         for(auto word:words)
             insert(word);        
         vector<int>ans;
+        unordered_map<string,int>mp;
         for(auto word:words)
-            ans.push_back(getCount(word));
+        {
+            if(mp[word])
+                ans.push_back(mp[word]);
+            else
+            {
+                int val = getCount(word);
+                ans.push_back(val);
+                mp[word]=val;
+            }
+        }
+            
         return ans;
     }
 };
