@@ -1,11 +1,27 @@
 class Solution {
 public:
+    int dx[4]={1,-1,0,0};
+    int dy[4]={0,0,1,-1};
+    int cnt;
+    int n,m;
+    bool valid(int i,int j,vector<vector<char>>& grid )
+    {
+        return (i>=0 && i<n && j>=0 && j<m && grid[i][j]=='1');
+    }
+    void dfs(int i,int j, vector<vector<char>>& grid)
+    {
+        grid[i][j]='0';
+        for(int f=0;f<4;f++)
+        {
+            int x=i+dx[f];
+            int y=j+dy[f];
+            if(valid(x,y,grid))
+                dfs(x,y,grid);
+        }
+    }
     int numIslands(vector<vector<char>>& grid) {
-        bool vis[301][301]={};
-        stack<pair<int,int> >st;
-        int n = grid.size();
-        int m = grid[0].size();
-        vector<vector<int> >dir = {{1,0},{-1,0},{0,1},{0,-1}};
+        n=grid.size();
+        m=grid[0].size();
         int cnt=0;
         for(int i=0;i<n;i++)
         {
@@ -13,25 +29,8 @@ public:
             {
                 if(grid[i][j]=='1')
                 {
-                    st.push({i,j});
-                    grid[i][j]='0';
                     cnt++;
-                    while(!st.empty())
-                    {
-                        int x = st.top().first;
-                        int y = st.top().second;
-                        st.pop();
-                        for(int i=0;i<4;i++)
-                        {
-                            int newx = x+dir[i][0];
-                            int newy = y+dir[i][1];
-                            if(newx>=0 && newx <n && newy>=0 && newy<m && grid[newx][newy]=='1')
-                            {
-                                st.push({newx,newy});
-                                grid[newx][newy]='0';
-                            }
-                        }
-                    }
+                    dfs(i,j,grid);
                 }
             }
         }
