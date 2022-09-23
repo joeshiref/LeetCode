@@ -1,48 +1,47 @@
+
 class Solution {
 public:
-    
-int countSoFar[200];
-int freqOfTarget[200];
-bool check()
-{
-	bool flag = true;
-	for (int j = 0; j<200; j++)
+	
+	unordered_map<char, int>mp,freq;
+	bool checkCount()
 	{
-		if (freqOfTarget[j]>countSoFar[j])
-			flag = false;
-	}
-	return flag;
-
-}
-string minWindow(string s, string t)
-{
-
-	for (auto c : t)
-		freqOfTarget[c]++;
-
-	int start = 0, end = 0, mn = INT_MAX;
-	string ans = "";
-	while (start <= end && end<s.size())
-	{
-		countSoFar[s[end]]++;
-		bool flag = check();
-		if (flag)
+		for (int i = 0; i<200; i++)
 		{
-			while (check())
-			{
-				int len = end - start + 1;
-				if (len<mn)
-				{
-					mn = len;
-					ans = s.substr(start, len);
-				}
-				countSoFar[s[start]]--;
-				start++;
-			}
+			if (freq[i]>mp[i])
+				return false;
 		}
-		end++;
+		return true;
 	}
-	return ans;
-}
-
+	string minWindow(string str, string t) {
+		
+		for (auto c : t)
+			freq[c]++;
+        int req=freq.size();
+		int s = 0, e = 0, mn = INT_MAX;
+		string ans = "";
+        int formed=0;
+		while (e<str.size())
+		{
+			char cur = str[e];
+			mp[cur]++;
+            
+            if(mp[cur]==freq[cur])
+                formed++;
+			while (s<=e && formed==req)
+			{
+				if ((e - s + 1)<mn)
+				{
+					mn = (e - s + 1);
+					ans = str.substr(s, e - s + 1);
+				}
+				char left = str[s];
+				mp[left]--;
+                if(mp[left]<freq[left])
+                    formed--;
+				s++;
+			}
+			e++;
+		}
+		return ans;
+	}
 };
