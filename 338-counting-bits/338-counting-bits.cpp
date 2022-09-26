@@ -5,13 +5,7 @@ public:
         for(int i=0;i<=n;i++)
         {
             int tmp = i;
-            int cnt=0;
-            while(tmp)
-            {
-                int dig=tmp%2;
-                cnt+=dig;
-                tmp/=2;
-            }
+            int cnt=__builtin_popcount(tmp);
             ans.push_back(cnt);
         }
         return ans;
