@@ -15,7 +15,7 @@ public:
         
     }
     int coinChange(vector<int>& coins, int amount) {
-        sort(coins.begin(),coins.end());
+        //sort(coins.begin(),coins.end());
         memset(DP,-1,sizeof(DP));
         int ans = solve(coins.size()-1,amount,coins);
         return ans==(INT_MAX - 1)?-1:ans;
