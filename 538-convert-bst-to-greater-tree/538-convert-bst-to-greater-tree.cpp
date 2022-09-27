@@ -12,7 +12,7 @@
 class Solution {
 public:
     vector<int>values,prefix;
-    
+    int sum;
     void inOrderTraverse(TreeNode* root)
     {
         if(root==NULL)
@@ -25,24 +25,17 @@ public:
     {
         if(root==NULL)
             return;
-        changeValues(root->left);
-        //values.push_back(root->val);
-        int val = root->val;
-        int idx = lower_bound(values.begin(),values.end(),val)-values.begin();
-        int sumVal = prefix[prefix.size()-1]-prefix[idx];
-        root->val = sumVal+val;
         changeValues(root->right);
+        int totalSum = root->val + sum;
+        sum += root->val;
+        root->val = totalSum;
+        changeValues(root->left);
         
     }
     TreeNode* convertBST(TreeNode* root) {
         if(root==NULL)
             return NULL;
-        inOrderTraverse(root);
-        prefix.push_back(values[0]);
-        
-        for(int i=1;i<values.size();i++)
-            prefix.push_back(prefix[i-1]+values[i]);
-        
+
         TreeNode * cur = root;
         changeValues(cur);
         return root;
