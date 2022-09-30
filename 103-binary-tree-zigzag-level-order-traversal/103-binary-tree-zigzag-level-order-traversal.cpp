@@ -22,21 +22,21 @@ public:
         while(!que.empty())
         {
             sz = que.size();
-            vector<int>tmp(sz);
-            for(int i=0;i<sz;i++)
+            vector<int>tmp;
+            while(sz--)
             {
                 TreeNode* cur = que.front();
-                int idx = (level)==0?i:(sz-1-i);
-                tmp[idx]=cur->val;
+                tmp.push_back(cur->val);
                 que.pop();
                 if(cur->left)
                     que.push(cur->left);
                 if(cur->right)
                     que.push(cur->right);
             }
-            
+            if(level&1)
+                reverse(tmp.begin(),tmp.end());
             ans.push_back(tmp);
-            level^=1;
+            level++;
         }
         
         
