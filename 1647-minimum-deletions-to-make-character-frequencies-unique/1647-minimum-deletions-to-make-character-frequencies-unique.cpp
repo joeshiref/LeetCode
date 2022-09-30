@@ -1,24 +1,22 @@
 class Solution {
 public:
     int minDeletions(string s) {
-        set<char>st;
-        for(int i=0;i<s.size();i++)
-            st.insert(s[i]);
-        map<char,int>freq;
-        map<int,bool>exist;
-        for(int i=0;i<s.size();i++)
-            freq[s[i]-'a']++;
-        int cnt=0;
-        for(auto ch:st)
+        int freq[26]={};
+        for(auto &c:s)
+            freq[c-'a']++;
+        unordered_map<int,bool>mp;
+        int cnt = 0;
+        for(int i=0;i<26;i++)
         {
-            while(freq[ch-'a']!=0 && exist[freq[ch-'a']])
+            if(!freq[i])
+                continue;
+            int current = freq[i];
+            while(mp[current] && current)
             {
-                cout << ch << " " << freq[ch-'a'] << endl;
-                freq[ch-'a']--;
+                current--;
                 cnt++;
-                
             }
-            exist[freq[ch-'a']]=true;
+            mp[current]=true;
         }
         return cnt;
     }
