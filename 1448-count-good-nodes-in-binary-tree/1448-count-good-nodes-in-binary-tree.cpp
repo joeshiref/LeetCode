@@ -11,18 +11,18 @@
  */
 class Solution {
 public:
-    int cnt=0;
-    void traverse(TreeNode* root,int maxSoFar)
+    void findGood(TreeNode* root, int maxSofar,int &cnt)
     {
         if(root==NULL)
             return;
-        if(root->val>=maxSoFar)
+        if(root->val>=maxSofar)
             cnt++;
-        traverse(root->left,max(root->val,maxSoFar));
-        traverse(root->right,max(root->val,maxSoFar));
+        findGood(root->left,max(maxSofar,root->val),cnt);
+        findGood(root->right,max(maxSofar,root->val),cnt);
     }
     int goodNodes(TreeNode* root) {
-        traverse(root,root->val);
+        int cnt = 0;
+        findGood(root,root->val,cnt);
         return cnt;
     }
 };
