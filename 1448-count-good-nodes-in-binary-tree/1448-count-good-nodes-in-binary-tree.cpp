@@ -11,18 +11,17 @@
  */
 class Solution {
 public:
-    void findGood(TreeNode* root, int maxSofar,int &cnt)
+    int solve(TreeNode* root,int mx)
     {
         if(root==NULL)
-            return;
-        if(root->val>=maxSofar)
-            cnt++;
-        findGood(root->left,max(maxSofar,root->val),cnt);
-        findGood(root->right,max(maxSofar,root->val),cnt);
+            return 0;
+        int res = (root->val>=mx?1:0);
+        res+=solve(root->left,max(mx,root->val));
+        res+=solve(root->right,max(mx,root->val));
+        return res;
     }
     int goodNodes(TreeNode* root) {
-        int cnt = 0;
-        findGood(root,root->val,cnt);
-        return cnt;
+        
+        return solve(root,-10001);
     }
 };
