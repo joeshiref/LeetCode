@@ -1,28 +1,27 @@
 class Solution {
 public:
     vector<vector<int> >adj;
-    vector<int>vis,inRec;
+    vector<int>vis;
     bool hasCycle;
     void dfs(int source)
     {
         if(vis[source])
             return;
-        vis[source]=inRec[source] = 1;
+        vis[source] = 2;
         for(int i=0;i<adj[source].size();i++)
         {
             int child = adj[source][i];
-            if(inRec[child]!=-1)
+            if(vis[child]==2)
                 hasCycle = 1;
             if(!vis[child])
                 dfs(child);
         }
-        inRec[source] = -1;
+        vis[source]--;
     }
     
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         adj.resize(numCourses+1);
         vis = vector<int>(numCourses,0);
-        inRec = vector<int>(numCourses,-1);
         for(int i=0;i<prerequisites.size();i++)
         {
             int a = prerequisites[i][0];
