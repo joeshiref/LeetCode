@@ -1,7 +1,7 @@
 class Solution {
 public:
     map<string,bool>mp;
-    bool flag;
+    map<string,vector<string> >adj;
     bool validMutation(string a,string b)
     {
         if(a.size()!=b.size())
@@ -13,26 +13,58 @@ public:
     }
     int solve(string state,string end,vector<string>& bank)
     {
-        if(state==end)
+        queue<string>que;
+        que.push(state);
+        map<string,bool>vis;
+        vis[state]=true;
+        int sz,dep=0;
+        bool cont = true;
+        while(!que.empty() && cont)
         {
-            flag=true;
-            return 0;
-        }
-        int ans = 100010;
-        for(int i=0;i<bank.size();i++)
-        {
-            if(validMutation(state,bank[i]) && !mp[bank[i]])
+            sz = que.size();
+            while(sz--)
             {
-                mp[bank[i]]=true;
-                ans=min(ans,solve(bank[i],end,bank)+1);
-                mp[bank[i]]=false;
+                string cur = que.front();
+                que.pop();
+                if(cur==end)
+                {
+                    cont = false;
+                    break;
+                }
+                for(int i=0;i<adj[cur].size();i++)
+                {
+                    string child = adj[cur][i];
+                    if(!vis[child])
+                    {
+                        que.push(child);
+                        vis[child]=true;
+                    }
+                }
             }
+            dep++;
         }
-        return ans;
+        if(!cont)
+            return dep-1;
+        
+        return -1;
     }
     
     int minMutation(string start, string end, vector<string>& bank) {
-        int ans = solve(start,end,bank);
-        return (flag==false?-1:ans);
+        
+        for(auto genes:bank)
+            mp[genes]=true;
+        
+        bank.push_back(start);
+        
+        for(int i=0;i<bank.size();i++)
+        {
+            for(int j=0;j<bank.size();j++)
+            {
+                if(validMutation(bank[i],bank[j]))
+                    adj[bank[i]].push_back(bank[j]);
+            }
+        }
+        
+        return solve(start,end,bank);
     }
 };
