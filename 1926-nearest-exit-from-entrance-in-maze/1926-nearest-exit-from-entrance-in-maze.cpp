@@ -12,7 +12,6 @@ public:
         cost[cur_x][cur_y] = -1;
         int dep = 1;
         int sz;
-        int mn = INT_MAX;
         while(!que.empty())
         {
             
@@ -31,14 +30,14 @@ public:
                         que.push({newx,newy});
                         cost[newx][newy] = dep;
                         if(newx==0 || newx == maze.size()-1 || newy == 0 || newy == maze[0].size()-1)
-                            mn=min(mn,dep);
+                            return dep;
                     }
                 }
             }
             dep++;
         }
         
-        return mn==INT_MAX?-1:mn;
+        return -1;
         
     }
     
