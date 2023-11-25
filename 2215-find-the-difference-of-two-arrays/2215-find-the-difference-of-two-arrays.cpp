@@ -6,7 +6,7 @@ public:
             m1[num]=true;
         for(auto num:nums2)
             m2[num]=true;
-        set<int>ans1,ans2;
+        unordered_set<int>ans1,ans2;
         for(auto num:nums1)
         {
             if(!m2.count(num))
