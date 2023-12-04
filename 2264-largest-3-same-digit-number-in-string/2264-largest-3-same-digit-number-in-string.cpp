@@ -1,12 +1,25 @@
 class Solution {
 public:
     string largestGoodInteger(string num) {
-        for(char i='9';i>='0';i--)
+        int freq[10]={};
+        for(int i=0;i<3;i++)
+            freq[num[i]-'0']++;
+        int s=0,e=2;
+        int maxDigit=-1;
+        if(freq[num[e]-'0']==3)
+            maxDigit=num[e]-'0';
+        
+        while(e<num.size()-1)
         {
-            string s(3,i);
-            if(num.find(s)!=string::npos)
-                return s;
+            freq[num[s]-'0']--;
+            s++,e++;
+            freq[num[e]-'0']++;
+        
+            if(freq[num[e]-'0']==3)
+                maxDigit=max(maxDigit,num[e]-'0');
         }
-        return "";
+        if(maxDigit==-1)
+            return "";
+        return string(3,maxDigit+'0');
     }
 };
