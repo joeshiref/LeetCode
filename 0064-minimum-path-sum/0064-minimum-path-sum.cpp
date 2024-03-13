@@ -11,9 +11,7 @@ public:
         int & ret = DP[i][j];
         if(~ret)
             return ret;
-        int ch1 = grid[i][j] + solve(i+1,j,grid);
-        int ch2 = grid[i][j] + solve(i,j+1,grid);
-        return ret = min(ch1,ch2);
+        return ret = min(solve(i+1,j,grid),solve(i,j+1,grid)) + grid[i][j];
     }
     int minPathSum(vector<vector<int>>& grid) {
         n = grid.size();
