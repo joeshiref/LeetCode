@@ -3,21 +3,14 @@ public:
     int lengthOfLongestSubstring(string s) {
         int appear[300];
         memset(appear,-1,sizeof(appear));
-        int l = 0, r = 0;
+        int l = 0;
         int mx = 0;
-        while(r<s.size())
+        for(int r=0;r<s.size();r++)
         {
-            if(appear[s[r]]!=-1)
-            {
-                while(l<=appear[s[r]])
-                {
-                    appear[s[l]] = -1;
-                    l++;
-                }
-            }
+            if(appear[s[r]]>=l)
+                l = appear[s[r]] + 1;
             appear[s[r]] = r;
-            r++;
-            mx=max(mx,r-l);
+            mx = max(mx, r-l+1);
         }
         return mx;
     }
