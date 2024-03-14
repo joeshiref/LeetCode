@@ -1,29 +1,39 @@
 class Solution {
 public:
     
-    int getLongestPali(int left,int right,string & str)
+    string run(int i,int j, string &s)
     {
-        while(left>=0 && right<str.size() && str[left]==str[right])
+        string pali="";
+        while(i>=0 && j<s.size())
         {
-            left--,right++;
+            if(s[i]!=s[j])
+                break;
+            pali = s.substr(i,j-i+1);
+            i--,j++;
         }
-        return (right-left)-1;
+        return pali;
     }
     
     string longestPalindrome(string s) {
-        int end = 0, start = 0;
+        
+        string res="";
+        int mx = 0;
         for(int i=0;i<s.size();i++)
         {
-            int a = getLongestPali(i,i,s);
-            int b = getLongestPali(i,i+1,s);
-            int mx = max(a,b);
-            if(mx>(end-start))
+            string s1 = run(i,i,s);
+            string s2 = run(i,i+1,s);
+            if(s1.size()>mx)
             {
-                start = i - (mx - 1) / 2;
-                end = i + mx / 2;
+                mx = s1.size();
+                res = s1;
             }
+            if(s2.size()>mx)
+            {
+                mx = s2.size();
+                res = s2;
+            }
+            
         }
-        return s.substr(start,end-start+1);
+        return res;
     }
 };
-
