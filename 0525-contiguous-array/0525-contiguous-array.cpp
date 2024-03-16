@@ -7,7 +7,7 @@ public:
         for(int i=0;i<nums.size();i++)
         {
             cnt = cnt + (nums[i] == 1 ? 1 : -1);
-            if(mp.count(cnt))
+            if(mp.find(cnt)!=mp.end())
                 mxlength = max(mxlength,i-mp[cnt]);
             else
                 mp[cnt]=i;
