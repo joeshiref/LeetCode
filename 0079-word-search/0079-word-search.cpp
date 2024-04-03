@@ -1,46 +1,41 @@
 #pragma GCC optimize("O3", "unroll-loops")
-
 class Solution {
 public:
-    int n,m;
-    bool vis[10][10];
-    int dx[4]={0,0,-1,1};
-    int dy[4]={1,-1,0,0};
-    bool valid(int i,int j,vector<vector<char>>& board, char cur)
+    int n, m, s;
+    bool dfs (int i, int j, int k, vector<vector<char>>& board, string& word)
     {
-        return (i>=0 && i<n && j>=0 && j<m && !vis[i][j] && board[i][j]==cur);
+        if (i < 0 || i >= n || j < 0 || j >= m ||board[i][j] != word[k])
+            return 0;
+        if (k == s-1)
+            return 1;
+        char recover=board[i][j];
+        board[i][j] = '@';
+        bool a1 = dfs(i+1, j, k+1, board, word);
+        bool a2 = dfs(i, j+1, k+1, board, word);
+        bool a3 = dfs(i-1, j, k+1, board, word);
+        bool a4 = dfs(i, j-1, k+1, board, word);
+        board[i][j] = recover; // backtracking
+        return a1 || a2 || a3 || a4;
     }
-    bool solve(int idx, int i,int j, vector<vector<char>>& board, string word)
-    {
-        if(idx == word.size())
-            return true;
-        if(!valid(i,j,board,word[idx]))
-            return false;
-        bool found=false;
-        vis[i][j]=true;
-        for(int f=0;f<4;f++)
-        {
-            int x=dx[f]+i;
-            int y=dy[f]+j;
-            found|=solve(idx+1,x,y,board,word);
-            
-        }
-        vis[i][j]=false;
-        return found;
-    }
-    
-    
-    bool exist(vector<vector<char>>& board, string word) {
+
+    bool exist(vector<vector<char>>& board, string& word) {
         n = board.size();
         m = board[0].size();
-        for(int i=0;i<n;i++)
-        {
-            for(int j=0;j<m;j++)
-            {
-                if(board[i][j]==word[0] && solve(0,i,j,board,word))
-                    return true;
+        s = word.size();
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (dfs(i, j, 0, board, word)) return 1;
             }
         }
-        return false;
+        return 0;
     }
 };
+
+auto init = []()
+{ 
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    return 'c';
+}();
