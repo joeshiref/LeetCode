@@ -22,6 +22,13 @@ public:
         n = board.size();
         m = board[0].size();
         s = word.size();
+        int freq[58]={0};
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++)
+                freq[board[i][j]-'A']++;
+        }
+        for (char c: word) //Exclude the impossible cases
+            if(--freq[c-'A']<0) return 0;
         
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
