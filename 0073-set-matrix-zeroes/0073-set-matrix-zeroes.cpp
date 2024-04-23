@@ -35,16 +35,11 @@ public:
         {
             for(int j=1;j<m;j++)
             {
-                if(matrix[0][j]==0)
+                if(matrix[0][j]==0 || matrix[i][0]==0)
                 {
-                    for(int f=0;f<n;f++)
-                        matrix[f][j]=0;
+                    matrix[i][j]=0;
                 }
-                else if(matrix[i][0]==0)
-                {
-                    for(int f=0;f<m;f++)
-                        matrix[i][f]=0;
-                }
+                
             }
         }
         if(fr)
