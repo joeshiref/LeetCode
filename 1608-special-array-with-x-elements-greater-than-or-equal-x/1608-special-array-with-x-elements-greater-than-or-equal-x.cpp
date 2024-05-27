@@ -3,17 +3,14 @@ public:
     int specialArray(vector<int>& nums) {
         
         
-        for(int i=0;i<=1000;i++)
+        sort(nums.begin(),nums.end());
+        for(int i=1;i<=nums.size();i++)
         {
-            int cnt = 0;
-            for(int j=0;j<nums.size();j++)
-            {
-                if(nums[j]>=i)
-                    cnt++;
-            }
-            if(cnt==i)
+            int idx = lower_bound(nums.begin(),nums.end(),i)-nums.begin();
+            if(nums.size()-idx == i)
                 return i;
         }
         return -1;
+        
     }
 };
