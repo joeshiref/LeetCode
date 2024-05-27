@@ -1,16 +1,21 @@
 class Solution {
 public:
     int specialArray(vector<int>& nums) {
+        int N = nums.size();
         
-        
-        sort(nums.begin(),nums.end());
-        for(int i=1;i<=nums.size();i++)
-        {
-            int idx = lower_bound(nums.begin(),nums.end(),i)-nums.begin();
-            if(nums.size()-idx == i)
-                return i;
+        vector<int> freq(N + 1, 0);
+        for (int i = 0; i < N; i++) {
+            freq[min(N, nums[i])]++;
         }
-        return -1;
         
+        int numGreaterThanOrEqual = 0;
+        for (int i = N; i >= 1; i--) {
+            numGreaterThanOrEqual += freq[i];
+            if (i == numGreaterThanOrEqual) {
+                return i;
+            }
+        }
+        
+        return -1;
     }
 };
